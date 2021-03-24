@@ -1,8 +1,12 @@
-# FORK of:
+# FORK OF:
 https://github.com/rix0rrr/beacon
+
 
 # Why this fork:
 # Discovery of Beacon on remote PC, assuming that both Probe and Beacons may have more than 1 interface available
+
+
+
 
 # Beacon: automatic network discovery
 
