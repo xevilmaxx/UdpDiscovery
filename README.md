@@ -1,6 +1,11 @@
 # FORK of:
 https://github.com/rix0rrr/beacon
 
+# Why this fork:
+# Basic Idea:
+# Discovery of Beacon on remote PC.
+# Assuming that both Probe and Beacons may have more than 1 interface available
+
 # Beacon: automatic network discovery
 
 *Beacon* is a small C# library that helps remove some of the user annoyances involved in writing client-server applications: finding the address of the server to connect to (because messing around putting in IP addresses is so much fun, eh?)
@@ -33,21 +38,25 @@ Clients can find beacons using a `Probe`:
 
     var probe = new Probe("myApp");
     // Event is raised on separate thread so need synchronization
-    probe.BeaconsUpdated += beacons => Dispatcher.BeginInvoke((Action)(() => {
-        for (var beacon in beacons)
+    probe.BeaconsUpdated += beacons =>
+    {
+        try
         {
-            Console.WriteLine(beacon.Address + ": " + beacon.Data);
-        }        
-    }));
+            //normally this should be only 1
+            foreach (var beacon in beacons)
+            {
+                log.Debug(beacon.Address + ": " + beacon.Data);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            log.Error(ex);
+        }
+    };
 
     probe.Start();
     
     // ...
 
     probe.Stop();
-
-A WPF dialog is included that you can present to users to let them pick a server.
-
-## Help wanted
-
-This repository currently contains a simple C# implementation of the *Beacon* protocol. Implementations in other languages and for other platforms (Android, iOS, C++) are very welcome, as well as improvements to the protocol.
