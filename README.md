@@ -10,7 +10,7 @@ https://github.com/rix0rrr/beacon
 
 ---
 # Features
-- [x] Multiple adapters support
+- [x] Multiple adapters support (Multi Network)
 - [x] **Helping function to get your Machine public IP**
 - [x] Simplified communication by chamber concept (so you cannot process beacons and probes arriving from other chambers)
 - [x] Easy samples
