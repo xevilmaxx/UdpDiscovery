@@ -11,7 +11,7 @@ https://github.com/rix0rrr/beacon
 ---
 # Features
 - [x] Multiple adapters support
-- [x] **Helping function to get your Mache public IP**
+- [x] **Helping function to get your Machine public IP**
 - [x] Simplified communication by chamber concept (so you cannot process beacons and probes arriving from other chambers)
 - [x] Easy samples
 - [x] Net 5.0
