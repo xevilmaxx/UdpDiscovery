@@ -16,6 +16,8 @@ https://github.com/rix0rrr/beacon
 - [x] Easy samples
 - [x] Net 5.0
 - [x] Cross platform (**Windows / Linux / RaspberryPI**) maybe even MAC 
+- [x] UDP broadcasting
+- [x] Probes and Beacons are listening on fixed ports (35890 [Probe], 35891 [Beacon])
 ---
 
 # Beacon: automatic network discovery
