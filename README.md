@@ -3,8 +3,8 @@ https://github.com/rix0rrr/beacon
 
 
 # Why this fork:
-# Discovery of Beacon on remote PC, assuming that both Probe and Beacons may have more than 1 interface available
-
+# Discovery of Beacon on remote PC, assuming that both Probe and Beacons may have more than 1 interface available.
+# Not meant to be used to discover services on same PC, and may not give you desired result as broadcasts on multiple interfaces may result in multiple captures.
 
 
 
