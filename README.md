@@ -3,10 +3,20 @@ https://github.com/rix0rrr/beacon
 
 
 # Why this fork:
+---
 # Discovery of Beacon on remote PC, assuming that both Probe and Beacons may have more than 1 interface available.
+---
 # Not meant to be used to discover services on same PC, and may not give you desired result as broadcasts on multiple interfaces may result in multiple captures.
 
-
+---
+# Features
+- [x] Multiple adapters support
+- [x] **Helping function to get your Mache public IP**
+- [x] Simplified communication by chamber concept (so you cannot process beacons and probes arriving from other chambers)
+- [x] Easy samples
+- [x] Net 5.0
+- [x] Cross platform (**Windows / Linux / RaspberryPI**) maybe even MAC 
+---
 
 # Beacon: automatic network discovery
 
