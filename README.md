@@ -2,9 +2,7 @@
 https://github.com/rix0rrr/beacon
 
 # Why this fork:
-# Basic Idea:
-# Discovery of Beacon on remote PC.
-# Assuming that both Probe and Beacons may have more than 1 interface available
+# Discovery of Beacon on remote PC, assuming that both Probe and Beacons may have more than 1 interface available
 
 # Beacon: automatic network discovery
 
