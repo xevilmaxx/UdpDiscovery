@@ -1,6 +1,9 @@
 ﻿using BeaconLib;
 using BeaconLib.DTO;
 using BeaconLib.Helpers;
+using BeaconLib.Interfaces;
+using BeaconLib.LocalMachine;
+using BeaconLib.RemoteMachine;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -14,13 +17,16 @@ namespace Client
 
         static void Main(string[] args)
         {
-            log.Info("Server");
+            log.Info("Client");
 
             try
             {
 
+                bool isLocal = false;
+
                 //discover remote server
-                var probe = new Probe(DiscoveryChamber.CustomChamber);
+                var probe = new ProbeFactory().Get(isLocal, DiscoveryChamber.CustomChamber);
+                                
                 // Event is raised on separate thread so need synchronization
                 probe.BeaconsUpdated += beacons =>
                 {

@@ -1,6 +1,9 @@
 ﻿using BeaconLib;
 using BeaconLib.DTO;
 using BeaconLib.Helpers;
+using BeaconLib.Interfaces;
+using BeaconLib.LocalMachine;
+using BeaconLib.RemoteMachine;
 using Newtonsoft.Json;
 using System;
 
@@ -18,7 +21,11 @@ namespace Server
             try
             {
 
-                var ownBeacon = new Beacon(DiscoveryChamber.CustomChamber);
+                bool isLocal = false;
+
+                //discover remote server
+                var ownBeacon = new BeaconFactory().Get(isLocal, DiscoveryChamber.CustomChamber);
+
                 ownBeacon.BeaconData = JsonConvert.SerializeObject(new DiscoveredData()
                 {
                     Ip = LocalIP.GetLocalIp(),
