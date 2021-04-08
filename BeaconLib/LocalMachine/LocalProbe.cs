@@ -30,8 +30,9 @@ namespace BeaconLib.LocalMachine
 
         public event Action<IEnumerable<BeaconLocation>> BeaconsUpdated;
 
-        private readonly Thread thread;
-        private readonly EventWaitHandle waitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
+        private System.Timers.Timer ProbeTimer { get; set; }
+        private static object _locker = new object();
+
         private readonly UdpClient udp = new UdpClient();
         private IEnumerable<BeaconLocation> currentBeacons = Enumerable.Empty<BeaconLocation>();
 
@@ -39,10 +40,15 @@ namespace BeaconLib.LocalMachine
 
         public LocalProbe(string beaconType)
         {
-            udp.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-
             BeaconType = beaconType;
-            thread = new Thread(BackgroundLoop) { IsBackground = true };
+            ProbeTimer = new System.Timers.Timer(2000);
+            ProbeTimer.Elapsed += BackgroundLoop;
+            ProbeTimer.AutoReset = true;
+        }
+
+        private void Init()
+        {
+            udp.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
 
             udp.Client.Bind(new IPEndPoint(IPAddress.Any, 0));
             try
@@ -59,7 +65,11 @@ namespace BeaconLib.LocalMachine
 
         public void Start()
         {
-            thread.Start();
+            running = true;
+            Init();
+            ProbeTimer?.Start();
+            //start asap first time without waiting timer reset
+            BackgroundLoop(null, null);
         }
 
         private void ResponseReceived(IAsyncResult ar)
@@ -88,26 +98,46 @@ namespace BeaconLib.LocalMachine
                 }
             }
 
-            udp.BeginReceive(ResponseReceived, null);
+            if (running == true)
+            {
+                udp.BeginReceive(ResponseReceived, null);
+            }
+
         }
 
         public string BeaconType { get; private set; }
 
-        private void BackgroundLoop()
+        private void BackgroundLoop(object sender, System.Timers.ElapsedEventArgs e)
         {
-            while (running)
+            var hasLock = false;
+
+            try
             {
-                try
+
+                Monitor.TryEnter(_locker, ref hasLock);
+                if (!hasLock)
                 {
-                    BroadcastProbe();
-                }
-                catch (Exception ex)
-                {
-                    log.Debug(ex);
+                    log.Trace("Concurrent Thread isnt finished, wait next time");
+                    return;
                 }
 
-                waitHandle.WaitOne(2000);
+                log.Trace("Lock Acquired!");
+
                 PruneBeacons();
+                BroadcastProbe();
+
+            }
+            catch (Exception ex)
+            {
+                log.Debug(ex);
+            }
+            finally
+            {
+                if (hasLock)
+                {
+                    Monitor.Exit(_locker);
+                    log.Trace("Lock Released");
+                }
             }
         }
 
@@ -150,8 +180,9 @@ namespace BeaconLib.LocalMachine
         public void Stop()
         {
             running = false;
-            waitHandle.Set();
-            thread.Join();
+            ProbeTimer?.Stop();
+            udp?.Close();
+            udp?.Dispose();
         }
 
         public void Dispose()

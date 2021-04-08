@@ -7,6 +7,7 @@ using BeaconLib.RemoteMachine;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Threading;
 
 namespace Client
 {
@@ -41,6 +42,7 @@ namespace Client
                         }
 
                         //stop after finding first set of beacons
+                        log.Warn("Stopped!");
                         probe.Stop();
 
                         var data = JsonConvert.DeserializeObject<DiscoveredData>(beacons.First().Data);
@@ -55,6 +57,12 @@ namespace Client
                     }
 
                 };
+
+                probe.Start();
+
+                log.Debug("Going To Sleep");
+                Thread.Sleep(10000);
+                log.Debug("Wake up, lets restart");
 
                 probe.Start();
 

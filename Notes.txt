@@ -1,0 +1,7 @@
+For publishing package:
+Open Bash in .nupkg folder
+Specify appropriate key, also in: nuget.config
+
+Run following command:
+
+dotnet nuget push "BeaconLib.1.0.1.nupkg"  --api-key 67fd7e56827968527522d7d43bee4184a6f69599 --source "github"

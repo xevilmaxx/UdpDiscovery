@@ -119,20 +119,20 @@ You can also instantiate Local and Remote classes manually and bypass Factory pa
 ```
 //Local Discovery Probe
 bool isLocal = true;
-var probe = new ProbeFactory().Get(isLocal, "myApp");
+var probe = new ProbeFactory().Get(isLocal, DiscoveryChamber.CustomChamber);
 
 //Remote Discovery Probe
 bool isLocal = false;
-var probe = new ProbeFactory().Get(isLocal, "myApp");
+var probe = new ProbeFactory().Get(isLocal, DiscoveryChamber.CustomChamber);
 
 
 //Local Discovery Beacon
 bool isLocal = true;
-var beacon = new BeaconFactory().Get(isLocal, "myApp");
+var beacon = new BeaconFactory().Get(isLocal, DiscoveryChamber.CustomChamber);
 
 //Remote Discovery Beacon
 bool isLocal = false;
-var beacon = new BeaconFactory().Get(isLocal, "myApp");
+var beacon = new BeaconFactory().Get(isLocal, DiscoveryChamber.CustomChamber);
 
 ```
 
